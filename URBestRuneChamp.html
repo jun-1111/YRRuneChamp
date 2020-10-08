@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JScope's URBestRuneChamp.html</title>
+
+    <script>
+        //처음에는 아무것도 없는 표가 출현
+        //소환사 이름을 입력하고 버튼을 누르면 여러 값들을 불러오고 그것들을 이용한 setTable 함수 실행
+
+        //방법 : div에 id값을 주고 함수에 id값.innerHTML을 실행
+
+        //미리 정해진값 : 룬이름 , 룬픽률(해당룬을고른수/받아온게임수) , 룬승률(해당룬을고르고 이긴수/해당룬을고른수), 
+        // 어디까지 출력할거임? : 17개
+
+        //룬목록 : 집공,기발,치속,정복자,감전,포식자,수확,칼날비,콩콩이,유성,난입,착취,여진,수호자,빙결,봉풀주,짱돌 
+
+
+        /*
+        function makeruneinfo(){
+            
+
+            this.setinfo(){
+             
+            }
+        }
+        */
+
+        var runeinfo = [];
+        //룬에대한 정보를 담는 행렬
+        
+        //================================================================================================================
+        runeinfo[0] = ['집중공격',30,40,123];
+        runeinfo[1] = ['기민한발놀림',13,64,73];
+        runeinfo[2] = ['난입',87,50,293];
+        runeinfo[3] = ['만능의돌',50,40,123];
+        runeinfo[4] = ['봉인풀린주문서',30,40,123];
+        runeinfo[5] = ['빙결강화',30,40,123];
+        runeinfo[6] = ['수호자',30,43,123];
+        runeinfo[7] = ['신비로운유성',30,40,123];
+        runeinfo[8] = ['어둠의수확',30,40,123];
+        runeinfo[9] = ['여진',30,30,123];
+        runeinfo[10] = ['정복자',19,40,123];
+        runeinfo[11] = ['착취',32,40,123];
+        runeinfo[12] = ['치명적속도',10,40,123];
+        runeinfo[13] = ['칼날비',3,23,123];
+        runeinfo[14] = ['콩콩이',6,67,123];
+        runeinfo[15] = ['포식자',12,100,123];
+        runeinfo[16] = ['감전',24,60,123];
+        //================================================================================================================
+
+        
+
+        //테이블을 생성할때 메인룬의 색깔에 맞춰서 배경색을 바꾸는 방법도 시도
+
+        function closeTable(){
+            runetable.innerHTML = '';
+        }
+        function setTable(){
+
+            var tableSTL = '<table style="background-color: black; width: 400px;height: 250px; border-spacing:2px;text-align : center;">'
+
+            var setcol = 5; //순위, 룬이름(이미지), 룬픽률, 룬승률
+            //var setrow = 17; //룬이름들 
+
+            tableSTL +='<tr style="background-color : blanchedalmond; font-size:1.2em;">';
+            tableSTL +=     '<th>순위</th><th>룬</th><th>룬 픽률</th><th>룬 승률</th><th>경기수</th>';
+            tableSTL +='</tr>';
+
+            for(var x=0; x<runeinfo.length; x++){    
+                tableSTL += '<tr style="background-color : white;">';
+                tableSTL +='<td >'+(parseInt(x)+1)+'</td>';
+
+
+                tableSTL += '<td><img src="RuneImages/' +runeinfo[x][0]+ '.png"  height="27%";></td>';
+
+                for(var y=1; y<4; y++){
+                    
+                    //<td><img src="RuneImages/감전.png" width='100px'; height='100px';></td>
+                    tableSTL +='<td>'+runeinfo[x][y]+'</td>';
+                }
+                tableSTL +='</tr>';
+            }
+            tableSTL += '</table>';
+            runetable.innerHTML = tableSTL;
+        }
+    </script>
+
+
+</head>
+<body>
+    <h2>만들수 있다</h2>
+
+    <!--table생성-->
+
+    <!--룬에 대한 필드-->
+    <!--처음에는 분류에 대한 표만 표기-->
+
+    <!--함수를 이용해 룬에대한 정보를 담은 표를 호출-->
+    <fieldset>
+
+        <legend style="color : blue; font-size : 3em; font-weight: bold;">Rune</legend>
+        
+        <button onclick="setTable()">룬 정보 출력</button>
+        <button onclick="closeTable()">룬 정보 닫기</button>
+        <div id="runetable"></div>
+    
+
+    </fieldset>
+
+
+
+    <!--챔피언에 대한 필드-->
+    <fieldset>
+
+        <legend style="color : blueviolet; font-size : 2.7em; font-weight: bold;">Champion</legend>
+    
+    
+  
+    </fieldset>
+
+    
+    
+</body>
+</html>
+
+
