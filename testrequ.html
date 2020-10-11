@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+
+    <script>
+        //RGAPI-b01087d5-01dc-4a4d-9cb5-3518becc7f1e
+
+        var request = require("request");
+        var urlencode = require("urlencode");
+
+        var apikey = 'RGAPI-b01087d5-01dc-4a4d-9cb5-3518becc7f1e';
+
+        var requId = 'https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/%EB%A7%88%ED%95%9823?api_key=' + apikey;
+
+        console.log(requId);
+        var url = requId;
+
+        request(url,function(error,response,body){
+            var info_jason = JSON.parse(body);
+            var  key = Object.keys(info_jason);
+            var result = "id : " +info_jason[key]["id"];
+            console.log(result);
+        });
+
+        
+
+    </script>
+
+</head>
+
+<body>
+
+
+
+</body>
+
+</html>

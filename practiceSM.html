@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    
+    <!--https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js-->
+    <!--https://code.jquery.com/jquery-2.2.4.js-->
+    <script type="text/javascript">
+        
+
+        var stringMInfo ="" ;
+        var arrayDetailInfo ="";
+    
+        /*
+        $.getJSON('주소 ', function( data ) {
+            console.log(data);
+            console.log(data[0]);
+            console.log(data[0]['employee_age']);
+            });
+        */
+        /*
+        $.ajax({
+
+            crossOrigin : true,
+            dataType : "json",
+            url : "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/%EB%A7%88%ED%95%9823?api_key=RGAPI-5a30839c-4dc6-4b0f-8a34-4bef3477df3e",
+            success : function(data){
+                console.log("성공");
+            }
+        });
+        */
+        
+        $(document).ready(function () {
+            
+            var suminfo="https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/%EB%A7%88%ED%95%9823";
+            var apikey = "RGAPI-5a30839c-4dc6-4b0f-8a34-4bef3477df3e";
+            //RGAPI-5a30839c-4dc6-4b0f-8a34-4bef3477df3e
+            var lastforone = suminfo+"?api_key="+apikey;
+            //$.getJSON( "json_sample.json", function( data ) {
+            $.getJSON("summoner.json", function (data) {
+                $("#sname").html(data["summonerLevel"]);
+                $("#sname").html(data["name"]);
+                //.html을 사용하면 최종적인 값이 들어감
+
+                //$("#sinfo").append(data["name"]);
+                $("#sinfo").append(data["summonerLevel"]);
+                //append를 사용하면 해당 html-id에 모든 문자열이 append(확장) 되어 들어간다
+
+                $("#sacid").html(data["accountId"]);
+
+                $("#sid").html(data["id"]);
+            });
+
+
+            $.getJSON("matchesTimeline.json", function (data) {
+
+                $(data["matches"]).each(function(i,value) {
+                    
+                    //$("#minfo").append(key+":"+value+"<br/>");
+
+                    //~번째게임과 게임id를 매칭시켜라 + 챔피언 번호를 매칭시켜라
+
+                    //$('#minfo').append((i+1)+"번째 게임 : "+value["gameId"]+"<br/>챔피언 코드 : "+value["champion"]+"<br/><br/>");
+
+                    stringMInfo += (i+1)+"번째 게임 : "+value["gameId"]+"<br/>챔피언 코드 : "+value["champion"]+"<br/><br/>";
+                    //변수안에 innerHTML에 사용될 문자열 저장 
+
+
+                });
+                //키값이 존재하지않는경우 0?
+            });
+
+
+            $.getJSON("detailInfo.json",function(data){
+
+                var winteam = new Array();
+                var loseteam = new Array();
+
+                $(data["teams"]).each(function(i,value){
+                    console.log(value);
+                    //teamId
+                    if(value["win"] =='Win'){                        
+                        winteam.push(value["teamId"]); 
+                    }
+                    else{0
+                        loseteam.push(value["teamId"]);
+                    }
+                    
+                });
+                //console.log(winteam);
+                //console.log(loseteam);
+
+                $(data["participants"]).each(function(i,value){
+
+                    if(value["teamId"] == winteam[0]){
+                        winteam.push(value["championId"]+",");
+                    }
+
+                    else{
+                        loseteam.push(value["championId"]+",");
+                    }
+
+                });
+                //console.log(winteam);
+                //console.log(loseteam);
+                
+                //arrayDetailInfo+=winteam;
+                //arrayDetailInfo+=loseteam;
+                //배열이 문자열형식으로 적용됨
+                //console.log(arrayDetailInfo);
+                $("#winChampCode").append(winteam.slice(1));
+                $("#loseChampCode").append(loseteam.slice(1));
+                
+
+
+            });
+        });
+        
+
+
+       /*
+       "participants": [
+        {
+            "participantId": 1,
+            "teamId": 100,
+            "championId": 81,
+            "spell1Id": 4,
+            "spell2Id": 7,
+            "stats": {
+       */
+
+
+        //var USER_DAYS = JSON.parse('${jsonArrayString}') 
+
+        function buttonMachInfo(){
+
+            var codeIsSoLong = document.getElementById("minfo").innerHTML;
+
+            if(codeIsSoLong.length > 0){
+                document.getElementById("minfo").innerHTML = "";
+            }
+            else{
+                document.getElementById("minfo").innerHTML = stringMInfo;
+            }
+
+        }
+
+        function buttonDetailInfo(){
+            /*
+                <span id="winChampCode">승리팀의 챔피언 코드 : </span>
+            <br/>
+            <span id="loseChampCode">패배팀의 챔피언 코드 : </span>
+            */
+            //buttonarea
+
+           // document.getElementById("buttonarea").innerHTML = document.getElementById("winChampCode").length;
+            
+            
+        }
+
+
+
+        function spend(){
+
+            var text1 = document.getElementById("spendtext");
+
+            //document.getElementById("retext").innerHTML = text1; //[object HTMLInputElement]
+            document.getElementById("retext").innerHTML = text1.value;
+            
+        }
+        //입력창을 만들어서 번호를 입력받음
+        //입력받은 (번호)번째 게임을 찾아 그 게임에서 이긴팀의 챔피언코드,패배팀의 챔피언코드를 반환 
+
+
+
+    
+    </script>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <fieldset>
+        <legend style="font-size: 27px; font-weight: bold;">소환사 정보</legend>
+        소환사명 : <span id="sname"></span><br />
+
+        <br />소환사 lv : <span id="sinfo"></span><br />
+
+        <br />소환사 id값 : <span id="sid"></span><br />
+
+        <br />소환사 계정id값 : <span id="sacid"></span><br />
+
+    </fieldset>
+
+
+    <fieldset>
+        <button id="openMachInfo" onclick ="buttonMachInfo()">열기/닫기</button>
+        <legend style="font-size : 27px; font-weight: bold;">매치 기록</legend>
+        <h3>경기 이력 : </h3><span id="minfo"></span><br />
+    </fieldset>
+
+    <fieldset>
+        <button onclick="buttonDetailInfo()">열기/닫기</button>
+
+        <legend style="font-weight: bold;font-size: 27px;">상세 정보</legend>
+
+        <h3>상세 경기 이력</h3><span id="dinfo"></span><br/>
+
+        경기 코드를 입력 : <input type="text" id="spendtext">
+        <button onclick="spend()">전송</button> <br/>
+
+        <span id="retext"></span><br/>
+
+        <span id="winChampCode">승리팀의 챔피언 코드 : </span>
+        <br/>
+        <span id="loseChampCode">패배팀의 챔피언 코드 : </span>
+
+
+    </fieldset>
+
+</body>
+
+</html>
